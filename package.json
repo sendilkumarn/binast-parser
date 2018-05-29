@@ -1,0 +1,27 @@
+{
+  "name": "binast-parser",
+  "version": "0.0.0",
+  "homepage": "https://github.com/sendilkumarn/binast-parser",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "test": "ava"
+  },
+  "devDependencies": {
+    "ava": "1.0.0-beta.4",
+    "shift-parser": "^5.2.4"
+  },
+  "bugs": {
+    "url" : "https://github.com/sendilkumarn/binast-parser/issues",
+    "email" : "sendilkumarn@live.com"
+  },
+  "author": {
+    "name": "Sendil Kumar N",
+    "email": "sendilkumarn@live.com",
+    "url": "https://sendilkumarn.js.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sendilkumarn/binast-parser"
+  }
+}
