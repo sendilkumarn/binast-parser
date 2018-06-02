@@ -12,8 +12,8 @@
     "shift-parser": "^5.2.4"
   },
   "bugs": {
-    "url" : "https://github.com/sendilkumarn/binast-parser/issues",
-    "email" : "sendilkumarn@live.com"
+    "url": "https://github.com/sendilkumarn/binast-parser/issues",
+    "email": "sendilkumarn@live.com"
   },
   "author": {
     "name": "Sendil Kumar N",
@@ -23,5 +23,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/sendilkumarn/binast-parser"
-  }
+  },
+  "dependencies": {}
 }

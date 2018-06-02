@@ -2,10 +2,10 @@ const {isArray, isObject} = require('../util');
 
 convertObject = object => {
     switch(object.type) {
-        case "Block":
-            object["scope"] = null;
+        case 'Block':
+            object.scope = null;
             break;
-        case "BlockStatement":
+        case 'BlockStatement':
             // TODO make it faster and better
             // Rewrite
             //
@@ -21,46 +21,48 @@ convertObject = object => {
             //    ...foo
             // }
             delete object.type;
-            object.__proto__ = { 'Block': { } };
-            Object.defineProperty(object, 'Block', Object.getOwnPropertyDescriptor(object, 'BlockStatement'));
+            const newObj = JSON.parse(JSON.stringify(object['BlockStatement']));
+            // TODO discuss this
+            Object.setPrototypeOf(object, null);
             delete object['BlockStatement'];
+            Object.assign(object, newObj);
             break;
-        case "ForInStatement":
-        case "ForOfStatement" :
-            object["left"]["type"] = "ForInOfBinding";
-            let binding = object["left"]["declarators"][0]["binding"];
-            object["left"]["binding"] = binding;
-            delete object["left"]["declarators"];
+        case 'ForInStatement':
+        case 'ForOfStatement' :
+            object.left.type = 'ForInOfBinding';
+            let binding = object.left.declarators[0].binding;
+            object.left.binding = binding;
+            delete object.left.declarators;
             break;
-        case "Function":
-        case "FunctionDeclaration":
-        case "FunctionExpression":
-        case "Method":
-        case "ArrowExpression":
-            if(!object["isAsync"]) {
-                object["isAsync"] = false;
+        case 'Function':
+        case 'FunctionDeclaration':
+        case 'FunctionExpression':
+        case 'Method':
+        case 'ArrowExpression':
+            if(!object.isAsync) {
+                object.isAsync = false;
             }
-            object["scope"] = null;
+            object.scope = null;
             return makeEager(object);
-        case "Getter":
-        case "Setter":
+        case 'Getter':
+        case 'Setter':
             return makeEager(object);
-        case "LabeledStatement":
-            object.type = "LabelledStatement";
+        case 'LabeledStatement':
+            object.type = 'LabelledStatement';
             break;
-        case "LiteralRegExpExpression":
+        case 'LiteralRegExpExpression':
             let flags = [];
-            if (object["global"]) flags.push('g');
-            if (object["ignoreCase"]) flags.push('i');
-            if (object["multiline"]) flags.push('m');
-            if (object["sticky"]) flags.push('y');
-            if (object["unicode"]) flags.push('u');
-            object["flags"] = flags.join("");
+            if (object.global) flags.push('g');
+            if (object.ignoreCase) flags.push('i');
+            if (object.multiline) flags.push('m');
+            if (object.sticky) flags.push('y');
+            if (object.unicode) flags.push('u');
+            object.flags = flags.join('');
             break;
-        case "StaticPropertyName":
-            object.type =  "LiteralPropertyName";
+        case 'StaticPropertyName':
+            object.type =  'LiteralPropertyName';
             break;
-        case "VariableDeclarationStatement":
+        case 'VariableDeclarationStatement':
             // TODO make it faster and better
             // Rewrite
             //
@@ -75,11 +77,12 @@ convertObject = object => {
             // VariableDeclaration {
             //    ...foo
             // }
+            const newObj = JSON.parse(JSON.stringify(object.declaration));
             delete object.type;
-            object.__proto__ = { 'VariableDeclaration': { } };
-            Object.defineProperty(object, 'VariableDeclaration', 
-                    Object.getOwnPropertyDescriptor(object, 'declaration'));
-            delete object['declaration'];
+            delete object.declaration;
+            // TODO discuss this
+            Object.setPrototypeOf(object, null);            
+            Object.assign(object, newObj);
             break;
     }
 }
