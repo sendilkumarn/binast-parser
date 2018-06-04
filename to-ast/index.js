@@ -26,6 +26,10 @@ function convertObject(object) {
             //       ...foo
             //    }
             // }
+            const newObj = JSON.parse(JSON.stringify(object));
+            Object.keys(object).forEach(key => delete object[key]);
+            object.type = 'BlockStatement';
+            object.block = newObj;
             break;
         case 'ForInOfBinding':
             // Rewrite
@@ -99,6 +103,10 @@ function convertObject(object) {
             //       ...foo
             //    }
             // }
+            const newObj = JSON.parse(JSON.stringify(object));
+            Object.keys(object).forEach(key => delete object[key]);
+            object.type = 'VariableDeclarationStatement';
+            object.declaration = newObj;
             break;
     }
     return object;

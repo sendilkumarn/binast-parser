@@ -21,10 +21,10 @@ convertObject = object => {
             //    ...foo
             // }
             delete object.type;
-            const newObj = JSON.parse(JSON.stringify(object['BlockStatement']));
+            const newObj = JSON.parse(JSON.stringify(object['block']));
             // TODO discuss this
             Object.setPrototypeOf(object, null);
-            delete object['BlockStatement'];
+            delete object['block'];
             Object.assign(object, newObj);
             break;
         case 'ForInStatement':
@@ -77,12 +77,12 @@ convertObject = object => {
             // VariableDeclaration {
             //    ...foo
             // }
-            const newObj = JSON.parse(JSON.stringify(object.declaration));
+            const vdsObj = JSON.parse(JSON.stringify(object.declaration));
             delete object.type;
             delete object.declaration;
             // TODO discuss this
             Object.setPrototypeOf(object, null);            
-            Object.assign(object, newObj);
+            Object.assign(object, vdsObj);
             break;
     }
 }
