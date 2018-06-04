@@ -53,11 +53,11 @@ function convertObject(object) {
             object.type = 'VariableDeclaration';
             let binding = object.binding;
             delete object.binding;
-            object.declarators = {
+            object.declarators = [{
                 'type': 'VariableDeclarator',
                 'init': null,
                 'binding': binding
-            };
+            }];
             break;
         case 'EagerFunctionExpression':
         case 'SkippableFunctionExpression':
@@ -103,10 +103,10 @@ function convertObject(object) {
             //       ...foo
             //    }
             // }
-            const newObj = JSON.parse(JSON.stringify(object));
+            const vdObj = JSON.parse(JSON.stringify(object));
             Object.keys(object).forEach(key => delete object[key]);
             object.type = 'VariableDeclarationStatement';
-            object.declaration = newObj;
+            object.declaration = vdObj;
             break;
     }
     return object;
@@ -114,9 +114,9 @@ function convertObject(object) {
 
 module.exports =  convertTo = nodes => {
     if(isArray(nodes)) {
-        nodes.forEach(node => convert(node));
+        nodes.forEach(node => convertTo(node));
     } else if(isObject(nodes)) {
-        Object.keys(nodes).forEach(nodeKey => convert(nodes[nodeKey]));
+        Object.keys(nodes).forEach(nodeKey => convertTo(nodes[nodeKey]));
         convertObject(nodes);
     }
 }
